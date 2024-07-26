@@ -1,29 +1,52 @@
-import React, { useState } from 'react'
-import userData from './Data/Data';
-
-
+import React, { useEffect, useState } from 'react'
 function App() {
-  const [users, setUsers] = useState(userData);
-  return (
-    <div class="d-inline-flex bg-info">
-      <ul>
-        <li>ID</li>
-        <li>NAME</li>
-        <li>AGE</li>
-      </ul>
-      {
-        users.map((used) => (
+  // hook for getting api
+  const [data, setData] = useState([])
 
-          <ul>
-            <li>{used.id}</li>
-            <li>{used.name}</li>
-            <li>{used.age}</li>
-          </ul>
+  // hook for running api instantly
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products?sort=desc")
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+      }).catch((e) => {
+        console.log("there is something wrong")
+      })
+  }, [])
+}
+return (
+  <div>
+    <h1>List of all the products</h1>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Image</th>
+        <th colSpan={2}>Rating</th>
+      </tr>
+      {
+        data.map((ecom) => (
+          <tr>
+            <td>{ecom.id}</td>
+            <td>{ecom.title}</td>
+            <td>{ecom.price}</td>
+            <td>{ecom.description}</td>
+            <td>{ecom.category}</td>
+            <td><img src={ecom.image} style={{ width: "30px" }} /></td>
+            <td>{ecom.rating.rate}</td>
+            <td>{ecom.rating.id}</td>
+          </tr>
         ))
       }
-    </div>
-  )
-}
-
+    </table>
+  </div>
+)
 
 export default App
+
+
+
+
