@@ -1,55 +1,55 @@
 import React, { useEffect, useState } from 'react';
+import './App.css';
 
 function App() {
-  // hook for getting api
   const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
 
-  // hook for running api instantly
   useEffect(() => {
     fetch("https://fakestoreapi.com/products?sort=desc")
       .then((response) => response.json())
       .then((data) => {
         setData(data);
       })
-      .catch((error) => {
-        setError(error);
-        console.error("Error fetching data:", error);
+      .catch((e) => {
+        console.log(e["there is something wrong"]);
       });
   }, []);
 
   return (
-    <div>
-      <h1>List of all the products</h1>
-      {error ? (
-        <div>Error: {error.message}</div>
-      ) : (
-        <table>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Image</th>
-            <th colSpan={2}>Rating</th>
-          </tr>
-          {data.map((ecom) => (
-            <tr key={ecom.id}>
-              <td>{ecom.id}</td>
-              <td>{ecom.title}</td>
-              <td>{ecom.price}</td>
-              <td>{ecom.description}</td>
-              <td>{ecom.category}</td>
-              <td>
-                <img src={ecom.image} style={{ width: "30px" }} />
-              </td>
-              <td>{ecom.rating.rate}</td>
-              <td>{ecom.rating.count}</td>
+    <div class="container mt-4"> 
+      <h1 class="text-center mb-3" id='d1'>List of all the products</h1> 
+
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover"> 
+          <thead>
+            <tr>
+              <th class="bg-primary">ID</th> 
+              <th class="bg-primary">Title</th>
+              <th class="bg-primary">Price</th>
+              <th class="bg-primary">Description</th>
+              <th class="bg-primary">Category</th>
+              <th class="bg-primary">Image</th>
+              <th class="bg-primary" colSpan="2">Rating</th>
             </tr>
-          ))}
+          </thead>
+          <tbody>
+            {data.map((ecom) => (
+              <tr key={ecom.id}>
+                <td class="bg-secondary text-white">{ecom.id}</td>
+                <td class="bg-secondary text-white">{ecom.title}</td>
+                <td class="bg-secondary text-white">{ecom.price}</td>
+                <td class="bg-secondary text-white">{ecom.description}</td>
+                <td class="bg-secondary text-white">{ecom.category}</td>
+                <td class="bg-secondary text-white">
+                  <img src={ecom.image} alt={[]} style={{ width: "140px" }} />
+                </td>
+                <td class="bg-success text-white">{ecom.rating.rate}</td>
+                <td class="bg-success text-white">{ecom.rating.count}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
-      )}
+      </div>
     </div>
   );
 }
